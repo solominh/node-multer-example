@@ -1,0 +1,25 @@
+<script>
+  var filesToUpload = [];
+  const upload = () => {
+    console.log('upload')
+    const formData = new FormData();
+    const files = filesToUpload;
+    console.log(files);
+
+    for (let i = 0; i < files.length; i++) {
+      formData.append("uploads[]", files[i], files[i]['name']);
+    }
+    console.log('form data variable :   ' + formData.toString());
+    fetch('http://localhost:3000/uploads', { method: "post", body: formData })
+      .then(files => console.log(files));
+  }
+
+  const fileChangeEvent = (e) => {
+    console.log(e.target.files)
+    filesToUpload = e.target.files;
+  }
+</script>
+
+<input id="cin" name="cin" type="file" multiple onchange="fileChangeEvent(event)" placeholder="Upload a file..." />
+<br />
+<button type="button" onclick="upload()">Upload</button>
